@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""regex-ing Module"""
+"""filtered_logger Module"""
 import logging
 import re
 from typing import List
@@ -21,8 +21,7 @@ def filter_datum(fields: List[str],
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
+    """ Redacting Formatter class"""
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -41,3 +40,17 @@ class RedactingFormatter(logging.Formatter):
                             messag,
                             self.SEPARATOR)
         return line
+
+
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
+
+def get_logger() -> logging.Logger:
+    """the user_data gotten for logger"""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(stream_handler)
+    return logger
