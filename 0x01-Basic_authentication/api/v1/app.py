@@ -2,21 +2,21 @@
 """
 Route module for the API
 """
-from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
+from os import getenv
 
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
-auth_type = getenv('AUTH_TYPE', auth)
-if auth == auth_type:
+auth_type = getenv('AUTH_TYPE', "auth")
+if "auth" == auth_type:
     from api.v1.auth.auth import Auth
     auth = Auth()
-if auth_type == 'basic_auth':
+if auth_type == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
 
@@ -40,7 +40,7 @@ def forbidden_request(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 
-@app.before_request()
+@app.before_request
 def befor_request():
     """this executes befor auth request is required"""
     if auth:
