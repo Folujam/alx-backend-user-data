@@ -50,9 +50,9 @@ def befor_request():
         if auth.require_auth(request.path, excluded_paths):
             auth_header = auth.authorization_header(request)
             current_user = auth.current_user(request)
-            if auth_header is None:
+            if auth_header == None:
                 abort(401)
-            if current_user is None:
+            if current_user == None:
                 abort(403)
 
 
