@@ -48,6 +48,18 @@ def befor_request():
         return
     excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
                       '/api/v1/forbidden/']
+    if request.path not in excluded_paths:
+        if not auth.require_auth(request.path, excluded_paths):
+            return
+
+        auth_header = auth.authorization_header(request)
+        if auth_header is None:
+            abort(401)
+
+        current_user = auth.current_user(request)
+        if current_user is None:
+            abort(403)
+    """
     if auth.require_auth(request.path, excluded_paths):
         auth_header = auth.authorization_header(request)
         current_user = auth.current_user(request)
@@ -55,6 +67,7 @@ def befor_request():
             abort(401)
         if current_user is None:
             abort(403)
+    """
 
 
 if __name__ == "__main__":
