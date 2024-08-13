@@ -56,7 +56,7 @@ class DB:
         return result
         """
         try:
-            return self._session.query(User).filter_by(**kwargs).one()
+            return self._session.query(User).filter_by(**kwargs).first()
         except NoResultFound:
             raise NoResultFound("No user found with the given criteria")
         except InvalidRequestError as e:
