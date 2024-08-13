@@ -56,8 +56,26 @@ class DB:
         return result
         """
         try:
-            return self._session.query(User).filter_by(**kwargs).first()
+            return self._session.query(User).filter_by(**kwargs).one()
         except NoResultFound:
             raise NoResultFound("No user found with the given criteria")
         except InvalidRequestError as e:
             raise InvalidRequestError(f"Invalid query argument: {e}")
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """method updates a user
+        uses find_user_by to locate user to update"""
+        user_to_up = self.find_user_by(id=user_id)
+        if user_to_up is None:
+            return
+        update_source = {}
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                update_source[getattr(User, key)] = value
+            else:
+                raise ValueError()
+        self._session.query(User).filter(User.id == user_id).update(
+            update_source,
+            synchronize_session=False,
+        )
+        self._session.commit()
