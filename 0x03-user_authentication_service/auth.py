@@ -23,8 +23,9 @@ class Auth:
     """
 
     def __init__(self):
+        """ initializes Auth class"""
         self._db = DB()
-    
+
     def register_user(email: str, password: str) -> User:
         """registers user if they dont exist"""
         try:
