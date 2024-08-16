@@ -14,10 +14,11 @@ def index() -> str:
     """employs the get mthod at root"""
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route("/users", method=["POST"], strict_slashes=False)
 def users() -> str:
     """POST /users returns a JSON payload"""
-    #unpack gotten values of email && password
+    # unpack gotten values of email && password
     email, password = request.form.get("email"), request.form.get("password")
     try:
         AUTH.register_user(email, password)
