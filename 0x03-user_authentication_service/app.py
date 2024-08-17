@@ -9,13 +9,13 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route('/', method=["GET"], strict_slashes=False)
+@app.route('/', methods=["GET"], strict_slashes=False)
 def index() -> str:
     """employs the get mthod at root"""
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/users", method=["POST"], strict_slashes=False)
+@app.route("/users", methods=["POST"], strict_slashes=False)
 def users() -> str:
     """POST /users returns a JSON payload"""
     # unpack gotten values of email && password
