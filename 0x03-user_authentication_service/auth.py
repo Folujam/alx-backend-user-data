@@ -18,6 +18,7 @@ def _hash_password(password: str) -> bytes:
     hash = bcrypt.hashpw(byte, salt)
     return hash
 
+
 def _generate_uuid() -> str:
     """returns a uuid str generated"""
     return str(uuid.uuid4())
@@ -51,7 +52,7 @@ class Auth:
         return False
 
     def create_session(self, email: str) -> str:
-        """finds user by email, generates uuid, 
+        """finds user by email, generates uuid,
         assigns session_id"""
         user = self._db.find_user_by(email=email)
         if user is None:
