@@ -66,7 +66,8 @@ class Auth:
         """finds user by session_id"""
         if session_id is None:
             return None
-        user_id = self._db.find_user_by(session_id=session_id)
-        if user_id is None:
+        try:
+            user_id = self._db.find_user_by(session_id=session_id)
+        except NoResultFound:
             return None
         return user_id
