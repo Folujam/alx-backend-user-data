@@ -50,7 +50,7 @@ class Auth:
             return False
         return False
 
-    def create_session(self, email: str) -> session_id: str:
+    def create_session(self, email: str) -> str:
         """finds user by email, generates uuid, 
         assigns session_id"""
         user = self._db.find_user_by(email=email)
